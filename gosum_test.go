@@ -8,6 +8,8 @@ import (
 	"go/types"
 	"reflect"
 	"testing"
+
+	"golang.org/x/tools/go/types/typeutil"
 )
 
 func TestNewSumInterface(t *testing.T) {
@@ -53,7 +55,7 @@ type Empty interface {}
 		t.Fatal(err) // type error
 	}
 
-	pkgscope := AllRelatedPackages(pkg)
+	pkgscope := typeutil.Dependencies(pkg)
 
 	t.Run("empty scope", func(t *testing.T) {
 		for _, name := range pkg.Scope().Names() {

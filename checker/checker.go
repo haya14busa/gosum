@@ -7,13 +7,13 @@ import (
 	"strings"
 
 	"github.com/haya14busa/gosum"
-
+	"golang.org/x/tools/go/types/typeutil"
 	"honnef.co/go/lint"
 )
 
 // CheckSwitch checkes possible missed cases for type switch statement.
 func CheckSwitch(f *lint.File) {
-	all := gosum.AllRelatedPackages(f.Pkg.TypesPkg)
+	all := typeutil.Dependencies(f.Pkg.TypesPkg)
 	info := f.Pkg.TypesInfo
 
 	fn := func(node ast.Node) bool {
