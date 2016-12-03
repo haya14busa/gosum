@@ -39,8 +39,8 @@ func newSumInterface(seen map[*types.Named]bool, namedInterface *types.Named, pk
 	}
 	seen[namedInterface] = true
 
-	i := namedInterface.Underlying().(*types.Interface)
-	if i.Empty() {
+	i, ok := namedInterface.Underlying().(*types.Interface)
+	if !ok || i.Empty() {
 		return nil
 	}
 
@@ -51,21 +51,23 @@ func newSumInterface(seen map[*types.Named]bool, namedInterface *types.Named, pk
 
 	definedpkg := namedInterface.Obj().Pkg()
 	pkgs := pkgscope
-	if sum.IsInternal {
-		// package scope includes only defined package for "internal" interface.
-		pkgs = []*types.Package{definedpkg}
-	} else {
-		// add defined package to package scope if the scope doesn't have the
-		// defiend package.
-		found := false
-		for _, p := range pkgs {
-			found = (p == definedpkg)
-			if found {
-				break
+	if definedpkg != nil {
+		if sum.IsInternal {
+			// package scope includes only defined package for "internal" interface.
+			pkgs = []*types.Package{definedpkg}
+		} else {
+			// add defined package to package scope if the scope doesn't have the
+			// defiend package.
+			found := false
+			for _, p := range pkgs {
+				found = (p == definedpkg)
+				if found {
+					break
+				}
 			}
-		}
-		if !found {
-			pkgs = append(pkgs, definedpkg)
+			if !found {
+				pkgs = append(pkgs, definedpkg)
+			}
 		}
 	}
 	sum.PkgScope = pkgs

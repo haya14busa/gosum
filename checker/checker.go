@@ -26,7 +26,9 @@ func CheckSwitch(f *lint.File) {
 			return true
 		}
 		iface := gosum.NewSumInterface(named, all)
-
+		if iface == nil {
+			return true
+		}
 		covered := make(map[types.Type]bool, len(iface.Implements.Pointers))
 		for _, ptr := range iface.Implements.Pointers {
 			covered[ptr.Elem()] = false
@@ -64,9 +66,7 @@ func CheckSwitch(f *lint.File) {
 					} else {
 						if ptr, ok := typ.(*types.Pointer); ok {
 							covered[ptr.Elem()] = true
-						} else {
-							log.Printf("unexpected type: %v", typ)
-						}
+						} // else: untyped nil
 					}
 				}
 			}
