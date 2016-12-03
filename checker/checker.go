@@ -80,7 +80,7 @@ func CheckSwitch(f *lint.File) {
 		}
 
 		if len(uncovered) > 0 {
-			confidence := 1.0
+			confidence := 0.6 + 0.4*(1-float64(len(uncovered))/float64(len(covered)))
 			typs := make([]string, len(uncovered))
 			for i, typ := range uncovered {
 				typs[i] = types.NewPointer(typ).String()
