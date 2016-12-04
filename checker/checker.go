@@ -55,7 +55,14 @@ func CheckSwitch(f *lint.File) {
 				for _, expr := range c.List {
 					tv, ok := info.Types[expr]
 					if !ok {
-						log.Printf("fail to got type: %v", expr)
+						// Just ignore this case and continue.
+						//   log.Printf("fail to got type: %v", expr)
+						// You can see sample cases when you run gosumcheck to docker.
+						// $ gosumcheck github.com/docker/docker/...
+						//   2016/12/04 23:57:42 fail to got type: &{client ErrRepoNotInitialized}
+						//   2016/12/04 23:57:42 fail to got type: &{client ErrRepositoryNotExist}
+						//   2016/12/04 23:57:42 fail to got type: &{signed ErrExpired}
+						// ...
 						continue
 					}
 					typ := tv.Type
