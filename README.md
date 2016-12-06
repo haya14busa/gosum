@@ -48,4 +48,4 @@ $ gosumcheck go/ast/...
         - *ast.BadDecl
 ```
 
-See `gosumcheck -h` and "Editing Sum/Union/Variant Type in Go and Static Check Tool of switch-case handling"(TODO: link) for detail.
+See `gosumcheck -h` and [Sum/Union/Variant Type in Go and Static Check Tool of switch-case handling](https://medium.com/@haya14busa/sum-union-variant-type-in-go-and-static-check-tool-of-switch-case-handling-3bfc61618b1e) for detail.
