@@ -11,6 +11,20 @@ import (
 	"honnef.co/go/lint"
 )
 
+type Checker struct{}
+
+func NewChecker() *Checker {
+	return &Checker{}
+}
+
+func (c *Checker) Init(*lint.Program) {}
+
+func (c *Checker) Funcs() map[string]lint.Func {
+	return map[string]lint.Func{
+		"SA1000": CheckSwitch,
+	}
+}
+
 // CheckSwitch checkes possible missed cases for type switch statement.
 func CheckSwitch(f *lint.File) {
 	all := typeutil.Dependencies(f.Pkg.TypesPkg)
@@ -92,7 +106,9 @@ func CheckSwitch(f *lint.File) {
 			for i, typ := range uncovered {
 				typs[i] = types.NewPointer(typ).String()
 			}
-			f.Errorf(typeswitch, confidence, "uncovered cases for %v type switch:\n\t- %v", named.String(), strings.Join(typs, "\n\t- "))
+			if confidence > 0.8 {
+				f.Errorf(typeswitch, "uncovered cases for %v type switch:\n\t- %v", named.String(), strings.Join(typs, "\n\t- "))
+			}
 		}
 
 		return true
@@ -102,7 +118,7 @@ func CheckSwitch(f *lint.File) {
 
 // switchInterfaceType returns interface type of type switch statement. It may
 // return nil.
-func switchInterfaceType(node *ast.TypeSwitchStmt, info *types.Info) *types.Named {
+func switchInterfaceType(node *ast.TypeSwitchStmt, info types.Info) *types.Named {
 	ae := assertExpr(node)
 	if ae == nil {
 		return nil
