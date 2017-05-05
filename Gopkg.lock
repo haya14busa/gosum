@@ -1,0 +1,18 @@
+memo = "3a61846314647f5830680efd63489873dd8865586357771e669a024a61b55fd7"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/kisielk/gotool"
+  packages = ["."]
+  revision = "0de1eaf82fa3f583ce21fde859f1e7e0c5e9b220"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/tools"
+  packages = ["go/ast/astutil","go/buildutil","go/loader","go/ssa","go/types/typeutil"]
+  revision = "15b145e4e3bee8ae65bfd262016b9fa6e144f40b"
+
+[[projects]]
+  name = "honnef.co/go/lint"
+  packages = [".","lintutil"]
+  revision = "f6a1962ee8ee977020724ccffdf5cd135956aa54"

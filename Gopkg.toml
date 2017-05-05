@@ -1,0 +1,4 @@
+
+[[dependencies]]
+  name = "honnef.co/go/lint"
+  revision = "f6a1962ee8ee977020724ccffdf5cd135956aa54"
