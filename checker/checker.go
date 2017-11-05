@@ -107,7 +107,7 @@ func CheckSwitch(f *lint.File) {
 				typs[i] = types.NewPointer(typ).String()
 			}
 			if confidence > 0.8 {
-				f.Errorf(typeswitch, "uncovered cases for %v type switch:\n\t- %v", named.String(), strings.Join(typs, "\n\t- "))
+				f.Errorf(typeswitch, "uncovered cases for %v type switch\n\t- %v", named.String(), strings.Join(typs, "\n\t- "))
 			}
 		}
 
